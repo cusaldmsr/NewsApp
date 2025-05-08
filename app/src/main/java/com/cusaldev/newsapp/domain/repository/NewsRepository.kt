@@ -5,5 +5,5 @@ import com.cusaldev.newsapp.domain.model.Source
 import kotlinx.coroutines.flow.Flow
 
 interface NewsRepository {
-    suspend fun getTopHeadlines(source: String): ArticleDto
+    suspend fun getTopHeadlines(): ArticleDto
 }
