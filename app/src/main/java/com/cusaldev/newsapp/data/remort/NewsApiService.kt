@@ -15,5 +15,5 @@ interface NewsApiService {
     suspend fun getTopHeadlines(
         @Query("country") source: String = "techcrunch",
         @Query("apiKey") apiKey: String = API_KEY
-    ):Response<ArticleDto>
+    ):ArticleDto
 }
