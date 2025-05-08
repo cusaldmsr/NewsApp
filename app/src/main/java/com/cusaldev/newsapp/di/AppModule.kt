@@ -1,5 +1,8 @@
 package com.cusaldev.newsapp.di
 
+import com.cusaldev.newsapp.data.remort.NewsApiService
+import com.cusaldev.newsapp.data.repository.NewsRepositoryImpl
+import com.cusaldev.newsapp.domain.repository.NewsRepository
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -14,11 +17,18 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): Retrofit{
+    fun provideRetrofit(): NewsApiService{
         return Retrofit.Builder()
             .baseUrl("https://newsapi.org/")
             .addConverterFactory(GsonConverterFactory.create())
             .build()
+            .create(NewsApiService::class.java)
 
+    }
+
+    @Provides
+    @Singleton
+    fun provideNewsRepository(newsApiService: NewsApiService): NewsRepository{
+        return NewsRepositoryImpl(newsApiService)
     }
 }
