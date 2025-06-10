@@ -4,6 +4,9 @@ import com.cusaldev.newsapp.data.remort.ApiInterceptors
 import com.cusaldev.newsapp.data.remort.NewsApiService
 import com.cusaldev.newsapp.data.repository.NewsRepositoryImpl
 import com.cusaldev.newsapp.domain.repository.NewsRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
@@ -40,5 +43,11 @@ object AppModule {
     @Singleton
     fun provideNewsRepository(newsApiService: NewsApiService): NewsRepository{
         return NewsRepositoryImpl(newsApiService)
+    }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth {
+        return Firebase.auth
     }
 }
