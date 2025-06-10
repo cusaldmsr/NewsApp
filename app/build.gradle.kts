@@ -67,4 +67,10 @@ dependencies {
     implementation(libs.google.dagger.hilt.android)
     implementation(libs.google.dagger.hilt.android.compiler)
 
+    // Import the BoM for the Firebase platform
+    implementation(platform(libs.firebase.bom))
+
+    // Add the dependency for the Firebase Authentication library
+    implementation(libs.firebase.auth)
+
 }
