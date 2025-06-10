@@ -27,14 +27,27 @@ class AuthRepositoryImpl @Inject constructor(private val auth: FirebaseAuth) : A
         email: String,
         password: String
     ): Result<FirebaseUser> {
-        TODO("Not yet implemented")
+        try {
+            val result = auth.createUserWithEmailAndPassword(email, password).await()
+            result.user?.let {
+                return Result.success(it)
+            }
+            return Result.failure(Exception("User not found"))
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
     }
 
-    override suspend fun signOut() {
-        TODO("Not yet implemented")
+    override suspend fun signOut() : Result<Unit>{
+        try {
+            auth.signOut()
+            return Result.success(Unit)
+        } catch (e: Exception) {
+            return Result.failure(e)
+        }
     }
 
     override fun getCurrentUser(): FirebaseUser? {
-        TODO("Not yet implemented")
+        return auth.currentUser
     }
 }
