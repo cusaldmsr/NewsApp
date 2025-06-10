@@ -73,4 +73,7 @@ dependencies {
     // Add the dependency for the Firebase Authentication library
     implementation(libs.firebase.auth)
 
+    // Add the dependency for the Firebase Analytics library
+    implementation(libs.firebase.analytics)
+
 }
