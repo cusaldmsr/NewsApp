@@ -1,7 +1,7 @@
 package com.cusaldev.newsapp.di
 
 import com.cusaldev.newsapp.data.remort.ApiInterceptors
-import com.cusaldev.newsapp.data.remort.NewsApiService
+import com.cusaldev.newsapp.data.remort.NewApiService
 import com.cusaldev.newsapp.data.repository.NewsRepositoryImpl
 import com.cusaldev.newsapp.domain.repository.NewsRepository
 import com.google.firebase.auth.FirebaseAuth
@@ -29,25 +29,24 @@ object AppModule {
     }
     @Provides
     @Singleton
-    fun provideRetrofit(okHttpClient: OkHttpClient): NewsApiService{
+    fun provideRetrofit(okHttpClient: OkHttpClient): NewApiService{
         return Retrofit.Builder()
             .baseUrl("https://newsapi.org/")
             .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(NewsApiService::class.java)
+            .create(NewApiService::class.java)
 
     }
 
     @Provides
     @Singleton
-    fun provideNewsRepository(newsApiService: NewsApiService): NewsRepository{
-        return NewsRepositoryImpl(newsApiService)
+    fun provideNewsRepository(newApiService: NewApiService): NewsRepository{
+        return NewsRepositoryImpl(newApiService)
     }
 
     @Provides
     @Singleton
-    fun provideFirebaseAuth(): FirebaseAuth {
-        return Firebase.auth
-    }
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
 }
