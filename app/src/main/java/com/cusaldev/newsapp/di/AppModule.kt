@@ -1,12 +1,17 @@
 package com.cusaldev.newsapp.di
 
-import com.cusaldev.newsapp.data.remort.NewsApiService
+import com.cusaldev.newsapp.data.remort.ApiInterceptors
+import com.cusaldev.newsapp.data.remort.NewApiService
 import com.cusaldev.newsapp.data.repository.NewsRepositoryImpl
 import com.cusaldev.newsapp.domain.repository.NewsRepository
+import com.google.firebase.auth.FirebaseAuth
+import com.google.firebase.auth.ktx.auth
+import com.google.firebase.ktx.Firebase
 import dagger.Module
 import dagger.Provides
 import dagger.hilt.InstallIn
 import dagger.hilt.components.SingletonComponent
+import okhttp3.OkHttpClient
 import retrofit2.Retrofit
 import retrofit2.converter.gson.GsonConverterFactory
 import javax.inject.Singleton
@@ -17,18 +22,31 @@ object AppModule {
 
     @Provides
     @Singleton
-    fun provideRetrofit(): NewsApiService{
+    fun provideOkHttpClient(): OkHttpClient {
+        return OkHttpClient.Builder()
+            .addInterceptor(ApiInterceptors())
+            .build()
+    }
+    @Provides
+    @Singleton
+    fun provideRetrofit(okHttpClient: OkHttpClient): NewApiService{
         return Retrofit.Builder()
             .baseUrl("https://newsapi.org/")
+            .client(okHttpClient)
             .addConverterFactory(GsonConverterFactory.create())
             .build()
-            .create(NewsApiService::class.java)
+            .create(NewApiService::class.java)
 
     }
 
     @Provides
     @Singleton
-    fun provideNewsRepository(newsApiService: NewsApiService): NewsRepository{
-        return NewsRepositoryImpl(newsApiService)
+    fun provideNewsRepository(newApiService: NewApiService): NewsRepository{
+        return NewsRepositoryImpl(newApiService)
     }
+
+    @Provides
+    @Singleton
+    fun provideFirebaseAuth(): FirebaseAuth = FirebaseAuth.getInstance()
+
 }
