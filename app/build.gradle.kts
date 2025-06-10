@@ -1,9 +1,11 @@
 plugins {
     alias(libs.plugins.android.application)
     alias(libs.plugins.kotlin.android)
-//    alias(libs.plugins.google.dagger.hilt.android)
     alias(libs.plugins.google.devtools.ksp)
+    alias(libs.plugins.google.gms.services)
+    alias(libs.plugins.google.dagger.hilt.android)
 }
+
 
 android {
     namespace = "com.cusaldev.newsapp"
@@ -67,13 +69,10 @@ dependencies {
     implementation(libs.google.dagger.hilt.android)
     implementation(libs.google.dagger.hilt.android.compiler)
 
-    // Import the BoM for the Firebase platform
+    // Firebase
     implementation(platform(libs.firebase.bom))
-
-    // Add the dependency for the Firebase Authentication library
     implementation(libs.firebase.auth)
-
-    // Add the dependency for the Firebase Analytics library
     implementation(libs.firebase.analytics)
+
 
 }
